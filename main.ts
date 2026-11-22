@@ -98,6 +98,10 @@ const outDir = process.env["MAKEFUN_OUTPUT_DIR"];
 if (!outDir) {
   fail("MAKEFUN_OUTPUT_DIR is not set");
 }
-mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, "POST.json"), JSON.stringify({ url: canonical }) + "\n", "utf8");
+try {
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, "POST.json"), JSON.stringify({ url: canonical }) + "\n", "utf8");
+} catch (err) {
+  fail(`cannot write POST.json into ${outDir}: ${(err as Error).message}`);
+}
 console.log("entry link OK");
